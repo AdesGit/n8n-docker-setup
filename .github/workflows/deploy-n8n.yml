@@ -14,23 +14,23 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Updated to v3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2  # Updated to v2
 
       - name: Log in to Docker Hub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2  # Updated to v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v4  # Updated to v4
         with:
           context: .
-          tags: ${{ secrets.DOCKER_USERNAME }}/n8n:latest
           push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/n8n:latest
 
       - name: Deploy to Docker
         run: |
@@ -48,6 +48,12 @@ jobs:
           nohup ngrok http 5678 &
 
       - name: Get ngrok URL
+        id: get-ngrok-url
         run: |
           sleep 5
-          curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url'
+          NGROK_URL=$(curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url')
+          echo "NGROK_URL=$NGROK_URL" >> $GITHUB_ENV
+
+      - name: Output ngrok URL
+        run: |
+          echo "n8n is accessible at ${{ env.NGROK_URL }}"
