@@ -15,15 +15,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          node-version: '20'  # Specify Node.js version 20
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+        with:
+          node-version: '20'  # Specify Node.js version 20
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+          node-version: '20'  # Specify Node.js version 20
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
@@ -31,6 +36,7 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/n8n:latest
+          node-version: '20'  # Specify Node.js version 20
 
       - name: Deploy to Docker
         run: |
@@ -62,6 +68,7 @@ jobs:
       - name: Get ngrok URL
         id: get-ngrok-url
         run: |
+          sleep 5
           NGROK_URL=$(curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url')
           echo "NGROK_URL=$NGROK_URL" >> $GITHUB_ENV
 
