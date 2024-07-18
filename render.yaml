@@ -2,7 +2,7 @@ services:
   - type: web
     name: n8n-service
     env: docker
-    repo: https://github.com/your-username/your-repo
+    repo: https://github.com/AdesGit/n8n-docker-setup.git
     branch: main
     dockerfilePath: Dockerfile
     envVars:
