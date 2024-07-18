@@ -38,22 +38,3 @@ jobs:
         run: |
           sleep 10
           docker logs n8n
-
-      - name: Run ngrok using Docker
-        run: |
-          docker run --net=host -d -e NGROK_AUTHTOKEN=${{ secrets.NGROK_AUTH_TOKEN }} ngrok/ngrok:latest http 5678
-
-      - name: Get ngrok URL
-        id: get-ngrok-url
-        run: |
-          sleep 10
-          NGROK_URL=$(curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url')
-          echo "NGROK_URL=$NGROK_URL" >> $GITHUB_ENV
-
-      - name: Output ngrok URL
-        run: |
-          echo "n8n is accessible at ${{ env.NGROK_URL }}"
-
-      - name: Check Docker container logs again
-        run: |
-          docker logs n8n
