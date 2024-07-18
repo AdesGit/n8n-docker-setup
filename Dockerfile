@@ -11,4 +11,4 @@ RUN npm install -g n8n
 EXPOSE 5678
 
 # Run n8n and bind to $PORT
-CMD n8n start --tunnel
+CMD ["n8n", "start", "--port", "$PORT"]
