@@ -1,13 +1,14 @@
-# Use the official n8n image as the base image
-FROM n8nio/n8n:latest
+# Use an official Node.js runtime as a parent image
+FROM node:16
 
-# If you need to install additional dependencies, do it here
+# Set the working directory
+WORKDIR /home/node
 
-# Ensure the n8n command is available in PATH
-ENV PATH=/usr/local/bin:$PATH
+# Install n8n
+RUN npm install -g n8n
 
-# Expose the port that n8n will be running on
+# Expose the port n8n will run on
 EXPOSE 5678
 
-# Start n8n
+# Run n8n
 CMD ["n8n"]
