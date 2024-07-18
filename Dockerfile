@@ -7,8 +7,11 @@ WORKDIR /home/node
 # Install n8n
 RUN npm install -g n8n
 
-# Expose the port n8n will run on
+# Expose the default port n8n will run on
 EXPOSE 5678
 
-# Run n8n and bind to $PORT
-CMD ["n8n", "start", "--port", "$PORT"]
+# Set environment variable for n8n port
+ENV N8N_PORT=$PORT
+
+# Run n8n
+CMD ["n8n"]
