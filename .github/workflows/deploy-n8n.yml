@@ -48,7 +48,7 @@ jobs:
       - name: Get ngrok URL
         id: get-ngrok-url
         run: |
-          sleep 5
+          sleep 10
           NGROK_URL=$(curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url')
           echo "NGROK_URL=$NGROK_URL" >> $GITHUB_ENV
 
