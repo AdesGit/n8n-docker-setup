@@ -26,11 +26,9 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/n8n:latest
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/n8n:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/n8n:latest
 
       - name: Deploy to Docker
         run: |
