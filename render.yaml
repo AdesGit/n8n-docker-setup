@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: n8n-service
+    env: docker
+    repo: https://github.com/your-username/your-repo
+    branch: main
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: NGROK_AUTH_TOKEN
+        value: your_ngrok_auth_token
+    plan: free
+    healthCheckPath: /
+    buildCommand: docker build -t n8n-service .
+    startCommand: docker run -e PORT=$PORT -p $PORT:$PORT n8n-service
