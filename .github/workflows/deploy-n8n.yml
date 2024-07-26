@@ -32,7 +32,15 @@ jobs:
 
       - name: Deploy to Docker
         run: |
-          docker run -d --name n8n -p 5678:5678 ${{ secrets.DOCKER_USERNAME }}/n8n:latest
+          # Ensure any existing container is stopped and removed
+          docker stop n8n || true
+          docker rm n8n || true
+
+          # Create a volume for persistent data if it doesn't exist
+          docker volume create n8n-data || true
+
+          # Run the container with the volume attached
+          docker run -d --name n8n -p 5678:5678 -v n8n-data:/home/node/.n8n ${{ secrets.DOCKER_USERNAME }}/n8n:latest
 
       - name: Check Docker container logs
         run: |
